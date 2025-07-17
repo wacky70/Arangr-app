@@ -284,7 +284,26 @@ tramp
 
 # Application specific ignores for Organizer
 organizer_cache/
-file_metadata_cache/
+file_metadata_cache/p
 search_index/
 thumbnail_db/
 preview_db/
+
+# Build and executable files
+*.exe
+dist/
+build/
+
+# Local development and testing
+Starting/
+*.bat.log
+
+# Application data and user files
+app_data/
+user_files/
+processed_files/
+
+# System and temporary files specific to this app
+.arangr/
+arangr_temp/
+file_operations.log
