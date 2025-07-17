@@ -1,0 +1,21 @@
+# No external requirements needed!
+# tkinter comes bundled with Python
+# 
+# Optional enhancements you could install:
+# pillow>=9.0.0          # For better image preview support
+# chardet>=4.0.0         # For better text encoding detection
+
+# Core dependencies
+Pillow>=9.0.0
+
+# Office file support (optional)
+python-docx>=0.8.11
+openpyxl>=3.0.9
+python-pptx>=0.6.21
+PyPDF2>=3.0.1
+
+# AI Assistant support (optional)
+openai>=1.0.0
+
+# Enhanced text encoding detection (optional)
+chardet>=4.0.0
