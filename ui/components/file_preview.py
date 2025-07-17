@@ -195,7 +195,7 @@ class FilePreviewComponent:
     def _show_interactive_placeholder(self):
         """Show interactive placeholder when no file is selected"""
         placeholder_content = """
-🎯 Organizer File Preview
+🎯 Arangr File Preview
 
 📁 SELECT A FILE to begin exploring!
 

@@ -1,10 +1,10 @@
 @echo off
-title Organizer Application
+title Arangr Application
 cls
 
 echo.
 echo ================================================
-echo           Organizer Application
+echo           Arangr Application
 echo        Starting Application...
 echo ================================================
 echo.

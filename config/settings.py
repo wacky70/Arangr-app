@@ -3,7 +3,7 @@ Application Settings and Configuration
 """
 
 # Application Information
-APP_NAME = "Organizer ∞ Explorer"
+APP_NAME = "Arangr ∞ Explorer"
 APP_VERSION = "3.0.0"
 
 # Window Configuration

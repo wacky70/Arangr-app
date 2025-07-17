@@ -1,3 +1,3 @@
 """
-Configuration Package for Organizer ∞ Explorer
+Configuration Package for Arangr ∞ Explorer
 """

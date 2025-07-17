@@ -22,7 +22,7 @@ except ImportError:
     PIL_AVAILABLE = False
 
 
-class OrganizerExplorer:
+class ArangrExplorer:
     """Main application window and file explorer"""
     
     def __init__(self, root):
@@ -62,7 +62,7 @@ class OrganizerExplorer:
 
     def _setup_window(self):
         """Configure the main window"""
-        self.root.title("Organizer Application")
+        self.root.title("Arangr Application")
         self.root.geometry("1400x900")
         self.root.minsize(1000, 700)
     
@@ -83,7 +83,7 @@ class OrganizerExplorer:
     
     def _create_header(self):
         """Create the header section with professional banner and enhanced UX"""
-        self.header_frame = tk.Frame(self.main_container, height=100)  # Increased height
+        self.header_frame = tk.Frame(self.main_container, height=120)  # Increased height for logo
         self.header_frame.pack(fill=tk.X)
         self.header_frame.pack_propagate(False)
         
@@ -154,23 +154,23 @@ class OrganizerExplorer:
     def _create_logo(self, parent):
         """Create professional banner logo"""
         try:
-            # Create professional banner with optimal dimensions
-            self.logo = AnimatedLogo(parent, "logo.png", size=(250, 60))
+            # Create professional banner with optimal dimensions for header
+            self.logo = AnimatedLogo(parent, "logo.png", size=(240, 55))
         except Exception as e:
             print(f"Banner logo error: {e}")
             # Professional fallback
             self.fallback_logo = tk.Label(
                 parent, 
-                text="ORGANIZER", 
-                font=('Segoe UI', 18, 'bold'),
+                text="ARANGR", 
+                font=('Segoe UI', 16, 'bold'),
                 relief='flat',
                 borderwidth=0,
-                padx=25,
-                pady=15,
-                width=20,
+                padx=20,
+                pady=12,
+                width=18,
                 anchor='center'
             )
-            self.fallback_logo.pack(side=tk.LEFT, padx=(20, 15), pady=8)
+            self.fallback_logo.pack(side=tk.LEFT, padx=(15, 10), pady=10)
     
     def _create_toolbar(self):
         """Create the navigation toolbar with frame references"""
@@ -554,8 +554,9 @@ class OrganizerExplorer:
         try:
             normalized_path = os.path.normpath(file_path)
             
+            # Verify file exists before attempting to open
             if not os.path.exists(normalized_path):
-                messagebox.showerror("Error", f"File not found: {normalized_path}")
+                messagebox.showerror("Error", f"File not found:\n{normalized_path}\n\nThe file may have been moved, deleted, or is on an inaccessible network location.")
                 return
             
             import platform
@@ -569,7 +570,7 @@ class OrganizerExplorer:
                 subprocess.run(['xdg-open', normalized_path])
                 
         except Exception as e:
-            messagebox.showerror("Error", f"Cannot open file: {str(e)}")
+            messagebox.showerror("Error", f"Cannot open file:\n{normalized_path}\n\nError: {str(e)}")
 
     def _add_tree_item(self, item_name, is_folder):
         """Add item to tree with enhanced information"""
@@ -602,10 +603,11 @@ class OrganizerExplorer:
             icon = get_file_icon(normalized_path)
             display_text = f"{icon}  {item_name}"
             
-            # Insert item
-            self.tree.insert('', 'end', 
+            # Insert item and store the actual filename in tags for easy retrieval
+            item_id = self.tree.insert('', 'end', 
                            text=display_text, 
-                           values=(size_text, modified_text, file_type))
+                           values=(size_text, modified_text, file_type),
+                           tags=(item_name,))  # Store actual filename in tags
             
         except Exception as e:
             print(f"Error adding tree item {item_name}: {e}")
@@ -1191,7 +1193,7 @@ class OrganizerExplorer:
         try:
             folder = filedialog.askdirectory(
                 initialdir=self.current_dir,
-                title="Select Folder - Organizer Application"
+                title="Select Folder - Arangr Application"
             )
             if folder:
                 # Normalize the selected path
@@ -1309,23 +1311,114 @@ class OrganizerExplorer:
             return
         
         item = self.tree.item(selection[0])
-        item_name = self._extract_item_name(item['text'])
-        item_path = os.path.join(self.current_dir, item_name)
         
-        # Update selected file immediately
-        self.current_selected_file = item_path
-        
-        # Clear any previous content
-        self.current_file_content = None
-        
-        # Preview the file immediately if it's not a directory
-        if not os.path.isdir(item_path):
-            # Force immediate preview update
-            self.root.after_idle(lambda: self._preview_file(item_path))
+        # Get the actual filename from tags (more reliable than extracting from display text)
+        tags = self.tree.item(selection[0], 'tags')
+        if tags:
+            item_name = tags[0]  # First tag contains the actual filename
         else:
-            # Clear preview for directories
-            self._clear_preview()
+            # Fallback to extraction method if no tags
+            item_name = self._extract_item_name(item['text'])
+        
+        # Improved path construction
+        try:
+            item_path = os.path.join(self.current_dir, item_name)
+            item_path = os.path.normpath(item_path)
+            
+            # Verify the path exists before setting it
+            if os.path.exists(item_path):
+                # Update selected file immediately
+                self.current_selected_file = item_path
+                
+                # Clear any previous content
+                self.current_file_content = None
+                
+                # Preview the file immediately if it's not a directory
+                if not os.path.isdir(item_path):
+                    # Force immediate preview update
+                    self.root.after_idle(lambda: self._preview_file(item_path))
+                else:
+                    # Clear preview for directories
+                    self._clear_preview()
+                    self.current_file_content = None
+            else:
+                # File doesn't exist, clear selection
+                self.current_selected_file = None
+                self.current_file_content = None
+                self._clear_preview()
+                
+        except Exception as e:
+            # Error in path construction, clear selection
+            self.current_selected_file = None
             self.current_file_content = None
+            self._clear_preview()
+
+    def _on_double_click(self, event):
+        """Handle double-click: open files or navigate into directories"""
+        selection = self.tree.selection()
+        if not selection:
+            return
+        
+        item = self.tree.item(selection[0])
+        
+        # Get the actual filename from tags (more reliable than extracting from display text)
+        tags = self.tree.item(selection[0], 'tags')
+        if tags:
+            item_name = tags[0]  # First tag contains the actual filename
+        else:
+            # Fallback to extraction method if no tags
+            item_name = self._extract_item_name(item['text'])
+        
+        # Improved path construction with error handling
+        try:
+            item_path = os.path.join(self.current_dir, item_name)
+            item_path = os.path.normpath(item_path)
+            
+            # Verify the path exists before proceeding
+            if not os.path.exists(item_path):
+                messagebox.showerror("Error", f"File or folder not found:\n{item_path}")
+                return
+            
+            if os.path.isdir(item_path):
+                # Navigate into directory
+                self._navigate_to_directory(item_path)
+            else:
+                # Open file with default application
+                self._open_file(item_path)
+                
+        except Exception as e:
+            messagebox.showerror("Error", f"Error accessing file:\n{str(e)}")
+
+    def _navigate_to_directory(self, directory_path):
+        """Navigate to a specific directory"""
+        try:
+            normalized_path = os.path.normpath(directory_path)
+            if os.path.exists(normalized_path) and os.path.isdir(normalized_path):
+                # Update current directory
+                self.current_dir = normalized_path
+                
+                # Add to history
+                if self.history_index < len(self.history) - 1:
+                    # Remove forward history when navigating to new location
+                    self.history = self.history[:self.history_index + 1]
+                
+                self.history.append(self.current_dir)
+                self.history_index = len(self.history) - 1
+                
+                # Update UI
+                self.path_var.set(self.current_dir)
+                self._populate_tree_async()
+                
+                # Clear preview
+                self.preview_text.delete(1.0, tk.END)
+                self._clear_preview()
+                
+        except Exception as e:
+            messagebox.showerror("Error", f"Cannot navigate to directory: {str(e)}")
+
+    def _navigate_to(self, directory_path):
+        """Navigate to a directory (wrapper for _navigate_to_directory)"""
+        self._navigate_to_directory(directory_path)
 
     def _clear_preview(self):
         """Clear all preview content"""
@@ -1369,8 +1462,9 @@ Select a file from the list to preview its content.
         try:
             normalized_path = os.path.normpath(file_path)
             
+            # Improved file existence check
             if not os.path.exists(normalized_path):
-                error_msg = f"❌ File not found: {normalized_path}"
+                error_msg = f"❌ File not found: {normalized_path}\n\nPossible causes:\n• File was moved or deleted\n• Access permissions\n• Network drive issues"
                 self.preview_text.insert(tk.END, error_msg)
                 return
             
@@ -1632,3 +1726,52 @@ Use zoom controls to adjust view."""
                 button.config(bg='#e0f0e0')
         except:
             pass
+
+    def _on_tree_select(self, event):
+        """Handle tree selection event"""
+        # This can delegate to the single click handler for now
+        self._on_single_click(event)
+
+    def _on_click_capture(self, event):
+        """Capture click events for immediate feedback"""
+        # This can also delegate to the single click handler
+        self._on_single_click(event)
+
+    def _navigate_to_path(self, event):
+        """Navigate to the path entered in the path entry"""
+        try:
+            path = self.path_var.get().strip()
+            if path and os.path.exists(path) and os.path.isdir(path):
+                self._navigate_to_directory(path)
+            else:
+                messagebox.showerror("Error", f"Invalid path: {path}")
+        except Exception as e:
+            messagebox.showerror("Error", f"Error navigating to path: {str(e)}")
+
+    def _extract_item_name(self, item_text):
+        """Extract the actual file/folder name from tree item text"""
+        if not item_text:
+            return ""
+        
+        # Remove any leading/trailing whitespace
+        name = item_text.strip()
+        
+        # Handle icons and emoji prefixes that are added in _add_tree_item
+        # Pattern: "📄  filename.ext" or "📁  foldername"
+        import re
+        
+        # Remove icon and multiple spaces at the beginning
+        # This pattern matches any emoji/unicode followed by spaces
+        cleaned_name = re.sub(r'^[\U0001F000-\U0001F9FF\u2600-\u26FF\u2700-\u27BF\uE000-\uF8FF]+\s+', '', name)
+        
+        # If no emoji was found, try removing any non-alphanumeric characters at start
+        if cleaned_name == name:
+            cleaned_name = re.sub(r'^[^\w\s.-]+\s*', '', name)
+        
+        # If the name contains any path separators, take only the last part
+        cleaned_name = os.path.basename(cleaned_name)
+        
+        # Final cleanup - remove any remaining control characters but preserve normal filename characters
+        cleaned_name = re.sub(r'[\x00-\x1f\x7f-\x9f]', '', cleaned_name)
+        
+        return cleaned_name.strip() if cleaned_name else name.strip()

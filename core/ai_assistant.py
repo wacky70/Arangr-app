@@ -21,7 +21,7 @@ class AIAssistant:
     def __init__(self):
         self.api_key = None
         self.client = None
-        self.config_file = os.path.join(os.path.expanduser("~"), ".organizer_ai_config.json")
+        self.config_file = os.path.join(os.path.expanduser("~"), ".arangr_ai_config.json")
         self._load_api_key()
     
     def _load_api_key(self):

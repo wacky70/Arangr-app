@@ -1,3 +1,3 @@
 """
-Utility Functions Package for Organizer ∞ Explorer
+Utility Functions Package for Arangr ∞ Explorer
 """

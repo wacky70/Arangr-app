@@ -1,5 +1,5 @@
 """
-Organizer Application - Main Application Entry Point
+Arangr Application - Main Application Entry Point
 """
 
 import tkinter as tk
@@ -9,7 +9,7 @@ import os
 # Add current directory to Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from ui.main_window import OrganizerExplorer
+from ui.main_window import ArangrExplorer
 
 
 def main():
@@ -25,7 +25,7 @@ def main():
     
     # Initialize application
     try:
-        app = OrganizerExplorer(root)
+        app = ArangrExplorer(root)
         
         # Handle graceful shutdown
         def on_closing():

@@ -282,8 +282,8 @@ auto-save-list
 tramp
 .\#*
 
-# Application specific ignores for Organizer
-organizer_cache/
+# Application specific ignores for Arangr
+arangr_cache/
 file_metadata_cache/p
 search_index/
 thumbnail_db/

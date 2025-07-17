@@ -1,5 +1,5 @@
 """
-Logo Component - 3D ORGMASTER banner logo with enhanced visual effects
+Logo Component - 3D ARANGR banner logo with enhanced visual effects
 """
 
 import tkinter as tk
@@ -8,23 +8,24 @@ from PIL import Image, ImageTk, ImageDraw, ImageFont, ImageFilter
 
 
 class AnimatedLogo:
-    """3D ORGMASTER banner logo with enhanced visual effects"""
+    """3D ARANGR banner logo with enhanced visual effects"""
     
     def __init__(self, parent, logo_path="logo.png", size=(250, 60)):
         self.parent = parent
         self.size = size
         self.animation_enabled = True
         
-        # Enhanced canvas for 3D effects with proper sizing to prevent cutoff
+        # Optimized canvas sizing to prevent cutoff while fitting in header
         self.canvas = tk.Canvas(
             parent, 
-            width=size[0] + 40,  # Increased padding to prevent cutoff
-            height=size[1] + 25, # Increased padding to prevent cutoff
+            width=size[0] + 20,  # Moderate padding to prevent cutoff
+            height=size[1] + 15, # Moderate padding to prevent cutoff
             highlightthickness=0, 
             bd=0,
-            relief='flat'
+            relief='flat',
+            bg='#FAFAFA'  # Set initial background
         )
-        self.canvas.pack(side=tk.LEFT, padx=(5, 20), pady=5)  # Reduced left padding
+        self.canvas.pack(side=tk.LEFT, padx=(10, 20), pady=12)  # Optimized padding for centering
         
         # Load and display 3D banner logo
         self.original_image = self._load_3d_banner_logo(logo_path)
@@ -34,13 +35,13 @@ class AnimatedLogo:
             self._start_animation()
     
     def _load_3d_banner_logo(self, logo_path):
-        """Load and create 3D ORGMASTER banner logo"""
+        """Load and create 3D ARANGR banner logo"""
         # Try to load existing image first
         possible_paths = [
             logo_path,
             "logo.png",
             "banner.png",
-            "orgmaster_banner.png",
+            "arangr_banner.png",
             "assets/logo.png"
         ]
         
@@ -54,10 +55,10 @@ class AnimatedLogo:
                     print(f"Error loading banner from {path}: {e}")
                     continue
         
-        return self._create_3d_orgmaster_banner()
-    
-    def _create_3d_orgmaster_banner(self):
-        """Create professional 3D ORGMASTER banner with Monokai colors"""
+        return self._create_3d_arangr_banner()
+
+    def _create_3d_arangr_banner(self):
+        """Create professional 3D ARANGR banner with Monokai colors"""
         working_size = (self.size[0] + 20, self.size[1] + 20)
         img = Image.new('RGBA', working_size, (0, 0, 0, 0))
         draw = ImageDraw.Draw(img)
@@ -258,9 +259,9 @@ class AnimatedLogo:
         """Display the 3D banner with enhanced effects and proper centering"""
         self.photo = ImageTk.PhotoImage(self.original_image)
         
-        # Calculate center position with proper padding to prevent cutoff
-        canvas_width = self.size[0] + 40  # Match the canvas width
-        canvas_height = self.size[1] + 25  # Match the canvas height
+        # Calculate center position with updated padding values
+        canvas_width = self.size[0] + 20   # Match the updated canvas width
+        canvas_height = self.size[1] + 15  # Match the updated canvas height
         center_x = canvas_width // 2
         center_y = canvas_height // 2
         
@@ -290,7 +291,7 @@ class AnimatedLogo:
             font = ImageFont.load_default()
         
         # Main text with Monokai foreground color
-        text = "ORGANIZER"
+        text = "ARANGR"
         
         # Get text dimensions
         bbox = draw.textbbox((0, 0), text, font=font)

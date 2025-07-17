@@ -1,11 +1,11 @@
-# 🎯 Organizer Application
+# 🎯 Arangr Application
 
 A professional file explorer application with animated 3D logo, dual themes, comprehensive file preview, and AI-powered assistance capabilities.
 
 ## ✨ Key Features
 
 ### 🎨 **Enhanced Visual Design**
-- **3D Animated Logo** - Professional ORGMASTER banner with Monokai theming
+- **3D Animated Logo** - Professional ARANGR banner with Monokai theming
 - **Dual Theme System** - Seamless light/dark mode with Monokai color scheme
 - **Responsive UI** - Clean, modern interface with smooth animations
 - **Professional Typography** - Segoe UI fonts with enhanced readability
@@ -31,7 +31,7 @@ A professional file explorer application with animated 3D logo, dual themes, com
 
 ## 🎨 Logo & Theming
 
-### **3D ORGMASTER Banner**
+### **3D ARANGR Banner**
 - **Professional Design** - Rounded corners with 3D beveled effects
 - **Monokai Integration** - Uses authentic Monokai color palette
 - **Dynamic Sizing** - 250×60 banner format for optimal visibility
@@ -68,7 +68,7 @@ run.bat
 python main.py
 
 # Full setup with dependency management
-organizer.bat
+arangr.bat
 ```
 
 ### **AI Assistant Setup**
@@ -80,16 +80,16 @@ organizer.bat
 ## 📁 Project Structure
 
 ```
-ORG-MASTER/
+ARANGR/
 ├── main.py                 # 🚀 Application entry point
 ├── run.bat                 # 🖥️ Windows quick launcher
-├── organizer.bat           # 🔧 Complete setup manager
+├── arangr.bat             # 🔧 Complete setup manager
 ├── logo.png               # 🎨 Your custom logo (auto-resized to 250×60)
 ├── requirements.txt        # 📦 Python dependencies
 │
 ├── ui/                     # 🎨 User Interface Components
 │   ├── main_window.py      # Main application window
-│   ├── animated_logo.py    # 3D ORGMASTER banner with animations
+│   ├── animated_logo.py    # 3D ARANGR banner with animations
 │   └── components/         # Reusable UI components
 │       ├── file_tree.py    # Enhanced hierarchical file tree
 │       └── file_preview.py # Multi-format file preview system
@@ -196,7 +196,7 @@ chardet >= 4.0.0 (encoding detection)
 ## 🌟 Recent Updates
 
 ### **Version 7.0.0 - Enhanced Professional Edition**
-- ✅ **3D ORGMASTER Banner** - Professional logo with Monokai theming
+- ✅ **3D ARANGR Banner** - Professional logo with Monokai theming
 - ✅ **AI Assistant Integration** - OpenAI GPT for file analysis
 - ✅ **Enhanced File Preview** - Multi-tab system with zoom controls
 - ✅ **Performance Optimization** - Async loading and smart caching

@@ -1,3 +1,3 @@
 """
-UI Components Package for Organizer ∞ Explorer
+UI Components Package for Arangr ∞ Explorer
 """

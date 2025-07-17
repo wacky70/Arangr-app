@@ -1,3 +1,3 @@
 """
-Core Components Package for Organizer ∞ Explorer
+Core Components Package for Arangr ∞ Explorer
 """

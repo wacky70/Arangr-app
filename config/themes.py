@@ -1,5 +1,5 @@
 """
-Theme Configuration for Organizer Application - Monokai Theme
+Theme Configuration for Arangr Application - Monokai Theme
 """
 
 def get_theme(is_dark_mode=False):
