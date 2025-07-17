@@ -146,7 +146,7 @@ ARANGR/
 - **Video**: .mp4, .avi, .mov, .mkv, .webm
 - **Metadata**: Duration, resolution, codec information
 
-### **📦 Archives**
+### **📦 Archive**
 - **Common**: .zip, .rar, .7z, .tar
 - **Compressed**: .gz, .bz2, .xz
 - **Disk Images**: .dmg, .iso
